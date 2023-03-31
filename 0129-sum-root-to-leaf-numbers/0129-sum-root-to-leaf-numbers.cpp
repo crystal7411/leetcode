@@ -1,24 +1,26 @@
 class Solution {
 	int sum = 0;
 public:
-	int traverse(TreeNode* node, int val)
+	void traverse(TreeNode* node, int prev)
 	{
 		if (node == 0)
-			return 0;
+			return;
 
-		if (node->left == 0 && node->right == 0)
-			sum += (val * 10) + (node->val);
+		int newval = (prev * 10) + (node->val); // 10배씩 증가시키면서 자식노드까지 전달
 
-		val = (val * 10) + (node->val);
-		traverse(node->left, val);
-		traverse(node->right, val);
+		if (node->left == 0 && node->right == 0) // 리프노드 도달
+		{
+			sum += newval;
+			return;
+		}
 
-		return val;
+		traverse(node->left, newval);
+		traverse(node->right, newval);
 	}
 
 	int sumNumbers(TreeNode* root) {
 		traverse(root, 0);
-	//	printf("sum : %d\n", sum);
+		printf("sum : %d\n", sum);
 		return sum;
 	}
 };
